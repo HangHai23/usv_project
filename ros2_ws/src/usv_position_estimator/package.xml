@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>usv_position_estimator</name><version>0.1.0</version>
+  <description>Planar delayed IMU and UDP position estimation.</description>
+  <maintainer email="hai@example.com">hai</maintainer><license>MIT</license>
+  <buildtool_depend>ament_python</buildtool_depend>
+  <exec_depend>rclpy</exec_depend><exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend><exec_depend>std_msgs</exec_depend>
+  <exec_depend>usv_interfaces</exec_depend><exec_depend>python3-numpy</exec_depend>
+  <exec_depend>launch</exec_depend><exec_depend>launch_ros</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
+  <export><build_type>ament_python</build_type></export>
+</package>

@@ -1,0 +1,20 @@
+quadruped_rc_control:
+  ros__parameters:
+    dry_run: true
+    i2c_bus: 7
+    i2c_address: 45
+    throttle_channel: 2
+    throttle_reversed: false
+    deadband_us: 20
+    rc_timeout: 0.2
+    emergency_stop_channel: 5
+    emergency_stop_threshold_us: 1500
+    output_rate: 50.0
+    maximum_frequency_hz: 1.0
+    support_fraction: 0.7
+    # Order: left front, left rear, right front, right rear.
+    servo_channels: [1, 2, 3, 4]
+    centers_deg: [87.0, 87.0, 87.0, 87.0]
+    amplitudes_deg: [20.0, 20.0, 20.0, 20.0]
+    directions: [1, 1, -1, -1]
+    phase_offsets: [0.0, 0.5, 0.5, 0.0]

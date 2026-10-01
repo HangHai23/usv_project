@@ -1,0 +1,8 @@
+# Servo driver output channels (user numbering, 1-based).
+# Hardware adapters must convert numbering if the board API is zero-based.
+# Assignment only; the receiver does not consume this file.
+servo_output_channels:
+  left_front: 1
+  left_rear: 2
+  right_front: 3
+  right_rear: 4

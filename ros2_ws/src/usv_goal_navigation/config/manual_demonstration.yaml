@@ -1,0 +1,10 @@
+manual_demonstration:
+  ros__parameters:
+    goal_side: left  # 示范目标球门：left / right；启动脚本第一个参数可覆盖
+    log_directory: ~/Downloads/usv_manual_demonstrations  # 每次按S新建一个时间戳目录
+    measurement_delay_sec: 0.2  # 视觉位置相对UDP接收的估计延迟；仅用于离线对齐，不是已测延迟
+    pre_roll_sec: 2.0  # 保留按S前的背景数据，帮助分析动作起始
+    freshness_sec: 0.5  # RC/IMU/PWM/模式消息超时即结束本次有效示范
+    position_start_freshness_sec: 1.0  # 开始时必须有此时间内的新位置；过程中丢包记录为缺测
+    expected_speed_m_s: 0.0  # 示范意图备注；0表示不指定，不控制船速
+    pwm_node: /pwm_actuator  # 从运行节点读取左右启动阈值、限幅、微调；不重复配置阈值

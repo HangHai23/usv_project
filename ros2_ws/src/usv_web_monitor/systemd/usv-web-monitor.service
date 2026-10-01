@@ -1,0 +1,15 @@
+[Unit]
+Description=USV ROS 2 web monitor and constrained settings
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=hai
+WorkingDirectory=/home/hai/usv_project/ros2_ws
+ExecStart=/bin/bash -lc 'source /opt/ros/humble/setup.bash && source /home/hai/usv_project/ros2_ws/install/setup.bash && exec ros2 launch usv_web_monitor web_monitor.launch.py'
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

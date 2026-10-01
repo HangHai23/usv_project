@@ -1,0 +1,42 @@
+usv_position_estimator:
+  ros__parameters:
+    # UDP节点发布的米制全局位置；经纬度必须先投影转换。
+    position_topic: /usv/global_position
+    # 船身IMU：加速度m/s²，角速度rad/s，四元数为IMU到其参考世界系。
+    imu_topic: /imu/data_raw
+    # 输出ROS Odometry，位置在map、速度在child_frame的IMU轴中表达。
+    output_topic: /usv/position_prediction
+    # 必须与UDP位置的frame_id一致，其他坐标系报文拒绝融合。
+    global_frame: map
+    # 估计参考点为IMU位置；不假定IMU轴与船体base_link完全重合。
+    child_frame: imu_link
+    # IMU参考世界系到map的逆时针偏航角，单位度，需现场对齐标定。
+    imu_world_to_map_yaw_deg: 0.0
+    # 原始加速度通常包含重力，先旋转再减全局Z轴重力。
+    acceleration_includes_gravity: true
+    # 重力加速度，单位m/s²。
+    gravity: 9.80665
+    # IMU轴中的固定加速度零偏，单位m/s²；滤波还估计剩余map水平零偏。
+    accelerometer_bias_xyz: [0.0, 0.0, 0.0]
+    # 历史缓存秒数；早于缓存的UDP测量拒绝，不把旧位置当作当前位置。
+    history_seconds: 3.0
+    # UDP位置标准差，单位米；调小更相信定位，调大更相信惯性预测。
+    position_std_m: 0.10
+    # 连续加速度过程噪声强度，单位m/s²/√Hz；调大不确定性增长更快。
+    acceleration_noise_std: 0.35
+    # 水平加速度零偏随机游走强度，单位(m/s²)/√s。
+    bias_walk_std: 0.02
+    # 二维位置创新的马氏距离平方门限；过大跳变拒绝。
+    innovation_gate_squared: 25.0
+    # 位置测量超过该年龄，valid话题为false；惯性预测可继续但不可安全导航。
+    position_timeout: 1.0
+    # IMU超时秒数；超过后不发布新的预测，valid为false。
+    imu_timeout: 0.20
+    # IMU相邻帧最大允许间隔，秒；超出后重置等待重新定位，不跨大间隔积分。
+    maximum_imu_gap: 0.20
+    # 允许消息时间戳比当前时钟超前的最大秒数。
+    future_tolerance: 0.05
+    # 发布频率Hz，时间戳保持最新处理IMU时刻，不伪装成当前时刻。
+    output_rate: 100.0
+    # 水面二维模型的固定Z坐标，米；不估计升沉，UDP的z不参与融合。
+    water_z: 0.0

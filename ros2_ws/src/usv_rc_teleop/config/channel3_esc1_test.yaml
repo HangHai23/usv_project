@@ -1,0 +1,8 @@
+channel3_esc1_mapper:
+  ros__parameters:
+    input_channel: 3
+    minimum_us: 1000
+    center_us: 1500
+    maximum_us: 2000
+    center_deadband_us: 0
+    maximum_message_age: 0.2

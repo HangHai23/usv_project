@@ -1,0 +1,20 @@
+yolo_detector:
+  ros__parameters:
+    # FP16 TensorRT engine built locally on this Jetson (TRT 10.3, batch 1).
+    engine_path: /home/hai/usv_project/models/best.engine
+    image_topic: /camera/image_raw
+    detection_topic: /ball/detection
+    debug_image_topic: /ball/debug_image
+
+    # This model contains one class: 0 = redball.
+    target_class_id: 0
+    confidence_threshold: 0.50
+    iou_threshold: 0.45
+    image_size: 640
+    maximum_detections: 20
+    device: "0"
+
+    # Debug images consume additional CPU and ROS bandwidth; disabled normally.
+    # Required by usv_web_monitor's inference-view module.
+    publish_debug_image: true
+    model_retry_interval: 5.0

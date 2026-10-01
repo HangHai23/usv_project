@@ -1,0 +1,42 @@
+ball_follow_controller:
+  ros__parameters:
+    # 目标状态输入话题：由 target_state_estimator 发布目标偏角、跟踪状态等数据。
+    target_topic: /ball/target_state
+    # IMU输入话题：读取Z轴角速度，作为船体实际偏航角速度反馈。
+    imu_topic: /imu/data_raw
+    # 自动动力输出话题：发布左右电机动力百分比，随后进入模式仲裁器。
+    output_topic: /propulsion/automatic_command
+
+    # 目标偏角死区，单位rad；当前0.035约为2°，减小后小偏差响应更灵敏，但更容易抖动。
+    bearing_deadband_rad: 0.035
+    # 偏角外环比例增益：把目标偏角转换为期望偏航角速度；调大后转向更积极。
+    bearing_kp: 3.0
+    # 期望偏航角速度上限，单位rad/s；限制大角度目标对应的最高转向速度。
+    maximum_yaw_rate_rad_s: 0.70
+
+    # 角速度内环比例增益：根据“期望角速度-IMU实际角速度”计算差速转向量。
+    yaw_rate_kp: 40.0
+    # 最大差速转向量，单位%；调大可增强转向，但过大会导致过冲或振荡。
+    maximum_steering_percent: 40.0
+    # IMU偏航角速度方向反转：内部约定右转为正，而当前ROS IMU左转为正，因此设为true。
+    imu_yaw_rate_reversed: true
+    # 最终转向指令方向反转；若目标在右侧时船却向左转，将此值取反。
+    steering_reversed: false
+
+    # 目标基本居中且距离较远时的前进巡航动力，单位%。
+    cruise_throttle_percent: 15.0
+    # 转向减速角，单位rad；偏角从0增至该值时，前进动力线性降至0。
+    steering_slowdown_angle_rad: 0.45
+    # 停船目标框面积比例；目标框占画面比例达到该值时前进动力降为0。
+    stop_area_ratio: 0.20
+    # 短时未检测到目标、处于预测状态时的前进动力倍率；0.30表示保留30%。
+    predicting_throttle_scale: 0.30
+
+    # 动力变化斜率上限，单位%/s；调大响应更快，调小输出更平滑。丢失目标归零不受此限制。
+    output_slew_rate_percent_s: 60.0
+    # 目标状态消息超时，单位s；超过该时间未收到目标状态则立即输出零动力。
+    target_timeout: 0.20
+    # IMU消息超时，单位s；超过该时间未收到IMU数据则立即输出零动力。
+    imu_timeout: 0.20
+    # 控制器计算与自动动力发布频率，单位Hz。
+    output_rate: 20.0
